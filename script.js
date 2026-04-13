@@ -1,65 +1,92 @@
 let score = 0;
 let time = 30;
 
-document.body.innerHTML = `<h2 id="score">Score: 0</h2>`;
+document.body.innerHTML = `
+  <h2 id="score">Score: 0</h2>
+`;
+
 const scoreText = document.getElementById("score");
 
-// создаём 3 утки с разными скоростями
-const ducks = [
-  { el: createDuck("https://i.imgur.com/8Qf6bYv.png"), speed: 1200 }, // Homer
-  { el: createDuck("https://i.imgur.com/3YQZQ9F.png"), speed: 700 },  // Bart
-  { el: createDuck("https://i.imgur.com/1Q9Zx1L.png"), speed: 350 }   // Lisa
+// 🎮 персонажи
+const characters = [
+  { img: "homer.png", points: 1, speed: 1200 },
+  { img: "bart.png", points: 2, speed: 700 },
+  { img: "lisa.png", points: 5, speed: 400 }
 ];
 
-function createDuck(imgUrl) {
+const items = [];
+
+// 🔊 звук (D’oh!)
+const sound = new Audio("https://www.myinstants.com/media/sounds/doh.mp3");
+
+// создать персонажа
+function createChar(data) {
   const el = document.createElement("img");
 
-  el.src = imgUrl;
+  el.src = data.img;
   el.style.position = "absolute";
   el.style.width = "60px";
   el.style.cursor = "pointer";
+  el.style.transition = "0.1s";
 
   document.body.appendChild(el);
-  return el;
+
+  return { el, ...data };
 }
 
-// движение одной утки
-function moveDuck(duck) {
-  duck.el.style.left = Math.random() * 400 + "px";
-  duck.el.style.top = Math.random() * 400 + "px";
+// движение
+function move(el) {
+  el.style.left = Math.random() * 400 + "px";
+  el.style.top = Math.random() * 400 + "px";
 }
 
-// клик по утке
-ducks.forEach(d => {
-  d.el.onclick = (e) => {
+// создать всех
+characters.forEach(c => {
+  const item = createChar(c);
+  items.push(item);
+
+  // клик
+  item.el.onclick = (e) => {
     e.stopPropagation();
 
-    score++;
+    score += item.points;
     scoreText.innerText = "Score: " + score;
 
-    d.el.style.transform = "scale(0.7)";
-    setTimeout(() => d.el.style.transform = "scale(1)", 100);
+    // 💥 эффект
+    item.el.style.transform = "scale(0.5)";
+    setTimeout(() => item.el.style.transform = "scale(1)", 100);
 
-    moveDuck(d);
+    // 🔊 звук
+    sound.currentTime = 0;
+    sound.play();
+
+    move(item.el);
   };
 });
 
-// отдельный цикл для каждой утки (ВАЖНО!)
-ducks.forEach(d => {
-  function loop() {
-    moveDuck(d);
-    setTimeout(loop, d.speed);
-  }
-  loop();
-});
+// 🚀 игровой цикл (ускорение)
+let baseSpeed = 600;
 
-// промах
+function gameLoop() {
+  items.forEach(i => move(i.el));
+
+  setTimeout(gameLoop, baseSpeed);
+}
+
+// ⏫ ускорение игры
+setInterval(() => {
+  if (baseSpeed > 200) {
+    baseSpeed -= 50;
+  }
+}, 5000);
+
+// ❌ промах
 document.body.onclick = () => {
   score--;
   scoreText.innerText = "Score: " + score;
 };
 
-// таймер
+// ⏱ таймер
 setInterval(() => {
   time--;
 
@@ -68,3 +95,6 @@ setInterval(() => {
     location.reload();
   }
 }, 1000);
+
+// старт
+gameLoop();
