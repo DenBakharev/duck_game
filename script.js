@@ -5,11 +5,10 @@ const scoreText = document.getElementById("score");
 
 // 👇 ТЕСТ КАРТИНКИ (ВАЖНО)
 const homer = document.createElement("img");
-homer.src = "https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png";
+homer.src = homer.png;
 
 homer.style.position = "absolute";
-homer.style.width = "100px";
-homer.style.height = "100px";
+
 homer.style.cursor = "pointer";
 
 document.body.appendChild(homer);
