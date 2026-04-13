@@ -8,7 +8,7 @@ const homerSound = new Audio("https://www.myinstants.com/media/sounds/homer-doh.
 
 // 👨‍🦲 Гомер
 const homer = document.createElement("img");
-homer.src = "homer.png";
+homer.src = "https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png";
 
 homer.style.position = "absolute";
 homer.style.width = "80px";
