@@ -12,9 +12,11 @@ const sound = new Audio("https://www.myinstants.com/media/sounds/doh.mp3");
 
 // 🧍 создаём одного Гомера
 const homer = document.createElement("img");
-homer.src = "homer.phg"; 
+homer.src = "homer.png";
 homer.style.position = "absolute";
 homer.style.width = "80px";
+homer.style.height = "80px";
+homer.style.objectFit = "cover";
 homer.style.cursor = "pointer";
 homer.style.transition = "0.1s";
 
