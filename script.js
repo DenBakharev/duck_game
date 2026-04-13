@@ -1,23 +1,29 @@
 let score = 0;
 let time = 30;
 
-// 📊 UI
+// UI
 document.body.innerHTML = `
   <h2 id="score">Score: 0</h2>
 `;
 
 const scoreText = document.getElementById("score");
 
-// 🔊 звуки
+// 🔊 звук удара
 const punchSound = new Audio("https://www.myinstants.com/media/sounds/punch.mp3");
+
+// 😱 звук Гомера
 const homerSound = new Audio("https://www.myinstants.com/media/sounds/homer-doh.mp3");
 
-// 👨‍🦲 ГОМЕР
+// 👨‍🦲 создаём Гомера
 const homer = document.createElement("img");
-homer.src = "homer.png"; // файл должен лежать рядом с index.html
+homer.src = "homer.png";   // ⚠️ ВАЖНО: имя файла
 
 homer.style.position = "absolute";
+homer.style.width = "80px";
+homer.style.height = "80px";
+homer.style.objectFit = "cover";
 homer.style.cursor = "pointer";
+homer.style.userSelect = "none";
 homer.style.transition = "0.1s";
 
 document.body.appendChild(homer);
@@ -28,20 +34,18 @@ glove.innerText = "🥊";
 glove.style.position = "absolute";
 glove.style.fontSize = "40px";
 glove.style.display = "none";
-
 document.body.appendChild(glove);
 
-// 📍 движение Гомера
+// 📍 движение
 function moveHomer() {
   const maxX = window.innerWidth - 80;
+  const maxY = window.innerHeight - 120;
 
   homer.style.left = Math.random() * maxX + "px";
-
-  // ↕️ хаотичная высота (может улетать вверх/вниз)
-  homer.style.top = (Math.random() - 0.5) * 2000 + window.innerHeight / 2 + "px";
+  homer.style.top = Math.random() * maxY + "px";
 }
 
-// 💥 эффект удара
+// 💥 удар
 function punch(x, y) {
   glove.style.display = "block";
   glove.style.left = x + "px";
@@ -49,7 +53,7 @@ function punch(x, y) {
 
   setTimeout(() => {
     glove.style.display = "none";
-  }, 150);
+  }, 120);
 }
 
 // 🖱 клик по Гомеру
@@ -59,17 +63,17 @@ homer.onclick = (e) => {
   score++;
   scoreText.innerText = "Score: " + score;
 
-  // 🥊 звук удара
+  // звук удара
   punchSound.currentTime = 0;
   punchSound.play();
 
-  // 😱 крик Гомера
+  // крик Гомера
   setTimeout(() => {
     homerSound.currentTime = 0;
     homerSound.play();
   }, 100);
 
-  // 💥 визуальный удар
+  // эффект удара
   punch(e.pageX, e.pageY);
 
   homer.style.transform = "scale(0.6)";
@@ -94,10 +98,9 @@ setInterval(() => {
   }
 }, 1000);
 
-// 🚀 старт игры
-function gameLoop() {
-  moveHomer();
-  setTimeout(gameLoop, 600);
-}
+// 🚀 старт
+moveHomer();
 
-gameLoop();
+setInterval(() => {
+  moveHomer();
+}, 600);
