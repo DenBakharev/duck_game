@@ -1,19 +1,21 @@
 let score = 0;
 let time = 30;
 
+// 📊 UI
 document.body.innerHTML = `
   <h2 id="score">Score: 0</h2>
 `;
 
 const scoreText = document.getElementById("score");
 
-// 🥊 звуки
+// 🔊 звуки
 const punchSound = new Audio("https://www.myinstants.com/media/sounds/punch.mp3");
 const homerSound = new Audio("https://www.myinstants.com/media/sounds/homer-doh.mp3");
 
-// 👨‍🦲 Гомер
+// 👨‍🦲 ГОМЕР
 const homer = document.createElement("img");
-homer.src = "homer.jpg"; // проверь файл
+homer.src = "homer.jpg"; // файл должен лежать рядом с index.html
+
 homer.style.position = "absolute";
 homer.style.width = "80px";
 homer.style.height = "80px";
@@ -29,15 +31,20 @@ glove.innerText = "🥊";
 glove.style.position = "absolute";
 glove.style.fontSize = "40px";
 glove.style.display = "none";
+
 document.body.appendChild(glove);
 
-// 📍 перемещение Гомера
+// 📍 движение Гомера
 function moveHomer() {
-  homer.style.left = Math.random() * 400 + "px";
-  homer.style.top = Math.random() * 400 + "px";
+  const maxX = window.innerWidth - 80;
+
+  homer.style.left = Math.random() * maxX + "px";
+
+  // ↕️ хаотичная высота (может улетать вверх/вниз)
+  homer.style.top = (Math.random() - 0.5) * 2000 + window.innerHeight / 2 + "px";
 }
 
-// 💥 удар
+// 💥 эффект удара
 function punch(x, y) {
   glove.style.display = "block";
   glove.style.left = x + "px";
@@ -90,7 +97,7 @@ setInterval(() => {
   }
 }, 1000);
 
-// 🚀 старт
+// 🚀 старт игры
 function gameLoop() {
   moveHomer();
   setTimeout(gameLoop, 600);
