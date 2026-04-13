@@ -11,9 +11,22 @@ function moveDuck() {
   duck.style.top = Math.random() * 300 + "px";
 }
 
+// случайная скорость (быстро / медленно)
+function randomSpeed() {
+  // от 300ms (очень быстро) до 1500ms (медленно)
+  return Math.floor(Math.random() * 1200) + 300;
+}
+
+// игровой цикл (сам себя перезапускает)
+function gameLoop() {
+  moveDuck();
+
+  setTimeout(gameLoop, randomSpeed());
+}
+
 // клик по утке = +1
 duck.onclick = (e) => {
-  e.stopPropagation(); // чтобы не считался промах
+  e.stopPropagation();
 
   score++;
   scoreText.innerText = "Score: " + score;
@@ -40,5 +53,5 @@ setInterval(() => {
   }
 }, 1000);
 
-// старт
-moveDuck();
+// старт игры
+gameLoop();
