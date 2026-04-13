@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Duck Game</title>
-</head>
-<body style="background: skyblue; text-align:center;">
+  <meta charset="UTF-8">
+  <title>Homer Game</title>
 
-<h1>🦆 Утки</h1>
-<div id="duck" style="font-size:50px; cursor:pointer;">🦆</div>
-<p id="score">Score: 0</p>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: skyblue;
+      font-family: Arial;
+    }
+
+    #score {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id="score">Score: 0</h2>
 
 <script src="script.js"></script>
 
