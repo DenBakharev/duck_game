@@ -18,7 +18,6 @@ homer.src = "homer.png"; // файл должен лежать рядом с ind
 
 homer.style.position = "absolute";
 homer.style.width = "80px";
-homer.style.height = "80px";
 homer.style.objectFit = "cover";
 homer.style.cursor = "pointer";
 homer.style.transition = "0.1s";
