@@ -1,49 +1,56 @@
 let score = 0;
 let time = 30;
 
-const duck = document.getElementById("duck");
 const scoreText = document.getElementById("score");
 
-// перемещение утки
-function moveDuck() {
+// создаём 3 утки
+const ducks = [];
+
+for (let i = 0; i < 3; i++) {
+  const duck = document.createElement("div");
+  duck.innerText = "🦆";
   duck.style.position = "absolute";
-  duck.style.left = Math.random() * 300 + "px";
-  duck.style.top = Math.random() * 300 + "px";
+  duck.style.fontSize = "40px";
+  duck.style.cursor = "pointer";
+
+  document.body.appendChild(duck);
+  ducks.push(duck);
+
+  // клик по утке
+  duck.onclick = (e) => {
+    e.stopPropagation();
+
+    score++;
+    scoreText.innerText = "Score: " + score;
+
+    duck.style.transform = "scale(0.7)";
+    setTimeout(() => duck.style.transform = "scale(1)", 100);
+
+    moveDuck(duck);
+  };
 }
 
-// случайная скорость (быстро / медленно)
-function randomSpeed() {
-  // от 300ms (очень быстро) до 1500ms (медленно)
-  return Math.floor(Math.random() * 1200) + 300;
+// перемещение одной утки
+function moveDuck(duck) {
+  duck.style.left = Math.random() * 400 + "px";
+  duck.style.top = Math.random() * 400 + "px";
 }
 
-// игровой цикл (сам себя перезапускает)
+// ВСЕ утки двигаются быстро
 function gameLoop() {
-  moveDuck();
+  ducks.forEach(duck => {
+    moveDuck(duck);
+  });
 
-  setTimeout(gameLoop, randomSpeed());
+  setTimeout(gameLoop, 600); // ⚡ фиксированно быстро
 }
 
-// клик по утке = +1
-duck.onclick = (e) => {
-  e.stopPropagation();
-
-  score++;
-  scoreText.innerText = "Score: " + score;
-
-  duck.style.transform = "scale(0.7)";
-  setTimeout(() => duck.style.transform = "scale(1)", 100);
-
-  moveDuck();
-};
-
-// промах = -1
 document.body.onclick = () => {
   score--;
   scoreText.innerText = "Score: " + score;
 };
 
-// таймер игры
+// таймер
 setInterval(() => {
   time--;
 
@@ -53,5 +60,5 @@ setInterval(() => {
   }
 }, 1000);
 
-// старт игры
+// старт
 gameLoop();
