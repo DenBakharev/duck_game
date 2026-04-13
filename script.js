@@ -7,22 +7,45 @@ document.body.innerHTML = `
 
 const scoreText = document.getElementById("score");
 
-// 🔊 звук
-const sound = new Audio("https://www.myinstants.com/media/sounds/doh.mp3");
+// 🥊 звуки
+const punchSound = new Audio("https://www.myinstants.com/media/sounds/punch.mp3");
+const homerSound = new Audio("https://www.myinstants.com/media/sounds/homer-doh.mp3");
 
-// 🧍 создаём одного Гомера
+// 👨‍🦲 Гомер
 const homer = document.createElement("img");
-homer.src = "homer.png";
+homer.src = "homer.jpg"; // проверь файл
 homer.style.position = "absolute";
+homer.style.width = "80px";
+homer.style.height = "80px";
+homer.style.objectFit = "cover";
 homer.style.cursor = "pointer";
 homer.style.transition = "0.1s";
 
 document.body.appendChild(homer);
 
-// 🎯 движение
+// 🥊 перчатка
+const glove = document.createElement("div");
+glove.innerText = "🥊";
+glove.style.position = "absolute";
+glove.style.fontSize = "40px";
+glove.style.display = "none";
+document.body.appendChild(glove);
+
+// 📍 перемещение Гомера
 function moveHomer() {
   homer.style.left = Math.random() * 400 + "px";
   homer.style.top = Math.random() * 400 + "px";
+}
+
+// 💥 удар
+function punch(x, y) {
+  glove.style.display = "block";
+  glove.style.left = x + "px";
+  glove.style.top = y + "px";
+
+  setTimeout(() => {
+    glove.style.display = "none";
+  }, 150);
 }
 
 // 🖱 клик по Гомеру
@@ -32,13 +55,21 @@ homer.onclick = (e) => {
   score++;
   scoreText.innerText = "Score: " + score;
 
-  // эффект
-  homer.style.transform = "scale(0.5)";
-  setTimeout(() => homer.style.transform = "scale(1)", 100);
+  // 🥊 звук удара
+  punchSound.currentTime = 0;
+  punchSound.play();
 
-  // звук
-  sound.currentTime = 0;
-  sound.play();
+  // 😱 крик Гомера
+  setTimeout(() => {
+    homerSound.currentTime = 0;
+    homerSound.play();
+  }, 100);
+
+  // 💥 визуальный удар
+  punch(e.pageX, e.pageY);
+
+  homer.style.transform = "scale(0.6)";
+  setTimeout(() => homer.style.transform = "scale(1)", 100);
 
   moveHomer();
 };
@@ -59,10 +90,10 @@ setInterval(() => {
   }
 }, 1000);
 
-// 🚀 быстрые прыжки
+// 🚀 старт
 function gameLoop() {
   moveHomer();
-  setTimeout(gameLoop, 600); // скорость
+  setTimeout(gameLoop, 600);
 }
 
 gameLoop();
