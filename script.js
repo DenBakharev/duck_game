@@ -14,7 +14,6 @@ const sound = new Audio("https://www.myinstants.com/media/sounds/doh.mp3");
 const homer = document.createElement("img");
 homer.src = "homer.png";
 homer.style.position = "absolute";
-homer.style.width = "80px";
 homer.style.cursor = "pointer";
 homer.style.transition = "0.1s";
 
