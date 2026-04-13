@@ -6,19 +6,21 @@ const scoreText = document.getElementById("score");
 
 // создаём 3 утки с разными скоростями
 const ducks = [
-  { el: createDuck(), speed: 1200 }, // медленная 🐢
-  { el: createDuck(), speed: 700 },  // средняя
-  { el: createDuck(), speed: 350 }   // быстрая ⚡
+  { el: createDuck("https://i.imgur.com/8Qf6bYv.png"), speed: 1200 }, // Homer
+  { el: createDuck("https://i.imgur.com/3YQZQ9F.png"), speed: 700 },  // Bart
+  { el: createDuck("https://i.imgur.com/1Q9Zx1L.png"), speed: 350 }   // Lisa
 ];
 
-function createDuck() {
-  const duck = document.createElement("div");
-  duck.innerText = "🦆";
-  duck.style.position = "absolute";
-  duck.style.fontSize = "40px";
-  duck.style.cursor = "pointer";
-  document.body.appendChild(duck);
-  return duck;
+function createDuck(imgUrl) {
+  const el = document.createElement("img");
+
+  el.src = imgUrl;
+  el.style.position = "absolute";
+  el.style.width = "60px";
+  el.style.cursor = "pointer";
+
+  document.body.appendChild(el);
+  return el;
 }
 
 // движение одной утки
