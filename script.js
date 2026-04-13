@@ -7,78 +7,42 @@ document.body.innerHTML = `
 
 const scoreText = document.getElementById("score");
 
-// 🎮 персонажи
-const characters = [
-  { img: "homer.jpg", points: 1, speed: 2000 },
-  { img: "bart.jpg", points: 2, speed: 2000 },
-  { img: "lisa.jpg", points: 5, speed: 2000 }
-];
-
-const items = [];
-
-// 🔊 звук (D’oh!)
+// 🔊 звук
 const sound = new Audio("https://www.myinstants.com/media/sounds/doh.mp3");
 
-// создать персонажа
-function createChar(data) {
-  const el = document.createElement("img");
+// 🧍 создаём одного Гомера
+const homer = document.createElement("img");
+homer.src = "homer.jpg"; // проверь имя файла
+homer.style.position = "absolute";
+homer.style.width = "80px";
+homer.style.cursor = "pointer";
+homer.style.transition = "0.1s";
 
-  el.src = data.img;
-  el.style.position = "absolute";
-  el.style.width = "60px";
-  el.style.cursor = "pointer";
-  el.style.transition = "0.1s";
+document.body.appendChild(homer);
 
-  document.body.appendChild(el);
-
-  return { el, ...data };
+// 🎯 движение
+function moveHomer() {
+  homer.style.left = Math.random() * 400 + "px";
+  homer.style.top = Math.random() * 400 + "px";
 }
 
-// движение
-function move(el) {
-  el.style.left = Math.random() * 400 + "px";
-  el.style.top = Math.random() * 400 + "px";
-}
+// 🖱 клик по Гомеру
+homer.onclick = (e) => {
+  e.stopPropagation();
 
-// создать всех
-characters.forEach(c => {
-  const item = createChar(c);
-  items.push(item);
+  score++;
+  scoreText.innerText = "Score: " + score;
 
-  // клик
-  item.el.onclick = (e) => {
-    e.stopPropagation();
+  // эффект
+  homer.style.transform = "scale(0.5)";
+  setTimeout(() => homer.style.transform = "scale(1)", 100);
 
-    score += item.points;
-    scoreText.innerText = "Score: " + score;
+  // звук
+  sound.currentTime = 0;
+  sound.play();
 
-    // 💥 эффект
-    item.el.style.transform = "scale(0.5)";
-    setTimeout(() => item.el.style.transform = "scale(1)", 100);
-
-    // 🔊 звук
-    sound.currentTime = 0;
-    sound.play();
-
-    move(item.el);
-  };
-});
-
-// 🚀 игровой цикл (ускорение)
-let baseSpeed = 600;
-
-function gameLoop() {
-  items.forEach(i => move(i.el));
-
-  setTimeout(gameLoop, baseSpeed);
-}
-
-// ⏫ ускорение игры
-setInterval(() => {
-  if (baseSpeed > 200) {
-    baseSpeed -= 50;
-  }
-}, 5000);
+  moveHomer();
+};
 
 // ❌ промах
 document.body.onclick = () => {
@@ -96,5 +60,10 @@ setInterval(() => {
   }
 }, 1000);
 
-// старт
+// 🚀 быстрые прыжки
+function gameLoop() {
+  moveHomer();
+  setTimeout(gameLoop, 600); // скорость
+}
+
 gameLoop();
