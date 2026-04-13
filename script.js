@@ -9,9 +9,9 @@ const scoreText = document.getElementById("score");
 
 // 🎮 персонажи
 const characters = [
-  { img: "homer.jpg", points: 1, speed: 1200 },
-  { img: "bart.jpg", points: 2, speed: 700 },
-  { img: "lisa.jpg", points: 5, speed: 400 }
+  { img: "homer.jpg", points: 1, speed: 1500 },
+  { img: "bart.jpg", points: 2, speed: 1500 },
+  { img: "lisa.jpg", points: 5, speed: 1500 }
 ];
 
 const items = [];
