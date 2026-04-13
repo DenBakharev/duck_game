@@ -14,7 +14,7 @@ const homerSound = new Audio("https://www.myinstants.com/media/sounds/homer-doh.
 
 // 👨‍🦲 ГОМЕР
 const homer = document.createElement("img");
-homer.src = "homer.jpg"; // файл должен лежать рядом с index.html
+homer.src = "homer.png"; // файл должен лежать рядом с index.html
 
 homer.style.position = "absolute";
 homer.style.width = "80px";
