@@ -1,59 +1,33 @@
-let score = 0;
+console.log("GAME STARTED");
 
+let score = 0;
 const scoreText = document.getElementById("score");
 
-// 🔊 звук
-const punchSound = new Audio("https://www.myinstants.com/media/sounds/punch.mp3");
-const homerSound = new Audio("https://www.myinstants.com/media/sounds/homer-doh.mp3");
-
-// 👨‍🦲 Гомер
+// 👇 ТЕСТ КАРТИНКИ (ВАЖНО)
 const homer = document.createElement("img");
 homer.src = "https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png";
 
 homer.style.position = "absolute";
-homer.style.width = "80px";
-homer.style.height = "80px";
+homer.style.width = "100px";
+homer.style.height = "100px";
 homer.style.cursor = "pointer";
-homer.style.objectFit = "cover";
 
 document.body.appendChild(homer);
 
-// 📍 движение
-function moveHomer() {
-  const maxX = window.innerWidth - 80;
-  const maxY = window.innerHeight - 80;
+function move() {
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 100);
 
-  homer.style.left = Math.random() * maxX + "px";
-  homer.style.top = Math.random() * maxY + "px";
+  homer.style.left = x + "px";
+  homer.style.top = y + "px";
 }
 
-// 🥊 клик
-homer.onclick = (e) => {
-  e.stopPropagation();
-
+homer.onclick = () => {
   score++;
   scoreText.innerText = "Score: " + score;
-
-  punchSound.currentTime = 0;
-  punchSound.play();
-
-  setTimeout(() => {
-    homerSound.currentTime = 0;
-    homerSound.play();
-  }, 100);
-
-  homer.style.transform = "scale(0.6)";
-  setTimeout(() => homer.style.transform = "scale(1)", 100);
-
-  moveHomer();
+  move();
 };
 
-// ❌ промах
-document.body.onclick = () => {
-  score--;
-  scoreText.innerText = "Score: " + score;
-};
+setInterval(move, 800);
 
-// 🚀 старт
-moveHomer();
-setInterval(moveHomer, 600);
+move();
